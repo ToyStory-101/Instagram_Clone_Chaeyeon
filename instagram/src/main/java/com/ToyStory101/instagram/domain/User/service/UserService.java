@@ -1,6 +1,7 @@
 package com.ToyStory101.instagram.domain.User.service;
 
 import com.ToyStory101.instagram.domain.User.dto.AddUserRequest;
+import com.ToyStory101.instagram.domain.User.dto.UserLoginRequest;
 import com.ToyStory101.instagram.domain.User.entity.User;
 import com.ToyStory101.instagram.global.exception.CustomException;
 import com.ToyStory101.instagram.domain.User.repository.UserRepository;
@@ -28,13 +29,14 @@ public class UserService {
 //    }
 
 
-        public User Login(String username, String password) throws CustomException{
-            User user = userRepository.findByUsername(username)
-                    .orElseThrow(() -> new CustomException(HttpStatus.BAD_REQUEST, "사용자가 바보입니다"));
+        public User Login(UserLoginRequest ulr) throws CustomException{
+            User user = userRepository.findByEmail(ulr.getEmail())
+                    .orElseThrow(() -> new CustomException(HttpStatus.BAD_REQUEST, "Email이 없습니다."));
 
-            if(!user.getPassword().equals(password)){
+            if(!user.getPassword().equals(ulr.getPassword())){ //비번 찾기
                 throw new CustomException(HttpStatus.BAD_REQUEST, "비밀번호가 틀렸습니다");
             }
+
             return user;
 
         }
