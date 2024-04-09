@@ -6,6 +6,7 @@ import com.ToyStory101.instagram.domain.User.entity.User;
 import com.ToyStory101.instagram.domain.User.service.UserService;
 import com.ToyStory101.instagram.global.dto.CODE;
 import com.ToyStory101.instagram.global.dto.Result;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class UserController {
 //    }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserLoginRequest userLoginRequest, HttpSession ses) {
+    public ResponseEntity<?> login(@RequestBody UserLoginRequest userLoginRequest, HttpServletRequest request){
         User user = userService.Login(userLoginRequest);
 
         Result result = new Result();
@@ -39,7 +40,8 @@ public class UserController {
         result.setMessage("로그인 성공");
         result.setData(user);
 
-
+        HttpSession session = request.getSession(true);
+        session.setAttribute(user.getName(), user.getPassword());
         return ResponseEntity.ok().body(result);
 
     }
