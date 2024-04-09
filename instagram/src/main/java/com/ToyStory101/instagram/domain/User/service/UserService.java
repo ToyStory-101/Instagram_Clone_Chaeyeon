@@ -1,5 +1,6 @@
 package com.ToyStory101.instagram.domain.User.service;
 
+import com.ToyStory101.instagram.domain.User.dto.AddUserRequest;
 import com.ToyStory101.instagram.domain.User.entity.User;
 import com.ToyStory101.instagram.global.exception.CustomException;
 import com.ToyStory101.instagram.domain.User.repository.UserRepository;
@@ -37,18 +38,23 @@ public class UserService {
             return user;
 
         }
-        public void signup(String username, String password) throws CustomException{
-            if(username.isEmpty() | password.isEmpty()){
+        public User signup(AddUserRequest aur) throws CustomException{
+            if(aur.getEmail() == null | aur.getPassword() == null | aur.getName() == null | aur.getUsername() == null){
                 throw new CustomException(HttpStatus.BAD_REQUEST, "정보를 다 입력하세요!");
-            }
-            else if(userRepository.existsUserByUsername(username)){
-                throw new CustomException(HttpStatus.BAD_REQUEST, "아이디 중복!");
+            } else if (userRepository.existsUserByEmail(aur.getEmail())) {
+                throw new CustomException(HttpStatus.BAD_REQUEST, "가입 이메일 중복!");
             }
 
-            User user = new User();
-            user.setUsername(username);
-            user.setPassword(password);
-
+            User user = User.builder()
+                    .username(aur.getUsername())
+                    .password(aur.getPassword())
+                    .phone(aur.getPhone())
+                    .profileImage(aur.getProfileImage())
+                    .name(aur.getName())
+                    .email(aur.getEmail())
+                    .build();
             userRepository.save(user);
+            return user;
+
         }
 }

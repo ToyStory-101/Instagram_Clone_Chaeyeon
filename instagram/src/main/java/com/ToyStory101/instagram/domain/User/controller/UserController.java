@@ -1,7 +1,10 @@
 package com.ToyStory101.instagram.domain.User.controller;
 
+import com.ToyStory101.instagram.domain.User.dto.AddUserRequest;
 import com.ToyStory101.instagram.domain.User.entity.User;
 import com.ToyStory101.instagram.domain.User.service.UserService;
+import com.ToyStory101.instagram.global.dto.CODE;
+import com.ToyStory101.instagram.global.dto.Result;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +27,25 @@ public class UserController {
         return ResponseEntity.ok().body(user);
     }
 
+//    @PostMapping("/signup")
+//    public ResponseEntity<?> signup(@RequestBody Map<String,String> raw){
+//        userService.signup(raw.get("email"),raw.get("password"));
+//        return ResponseEntity.ok().body("완료");
+//    }
+
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody Map<String,String> raw){
-        userService.signup(raw.get("email"),raw.get("password"));
-        return ResponseEntity.ok().body("완료");
+    public ResponseEntity<?> signup(@RequestBody AddUserRequest addUserRequest){
+        User user = userService.signup(addUserRequest);
+//        userService.signup(addUserRequest);
+
+//        return ResponseEntity.ok().body("완료");
+        Result result = new Result();
+        result.setCode(CODE.SUCCESS);
+        result.setMessage("회원가입 성공");
+        result.setData(user);
+
+        return ResponseEntity.ok().body(result);
+
     }
+
 }

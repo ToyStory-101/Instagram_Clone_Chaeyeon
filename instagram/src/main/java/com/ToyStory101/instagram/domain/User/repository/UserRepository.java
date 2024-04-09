@@ -10,6 +10,6 @@ public interface UserRepository extends JpaRepository <User, Integer>{
     Optional<User> findByUsername(String username);
 //    Optional을 해줘야 exception에 걸릴 위험 없어짐.
 
-    boolean existsUserByUsername(String username);
+    boolean existsUserByEmail(String username);
 
 }
