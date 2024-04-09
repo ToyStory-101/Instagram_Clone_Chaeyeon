@@ -69,8 +69,8 @@ public class UserController {
     }
 
     @PostMapping("/join")
-    public ResponseEntity<?> signup(@RequestBody AddUserRequest addUserRequest){
-        User user = userService.signup(addUserRequest);
+    public ResponseEntity<?> join(@RequestBody AddUserRequest addUserRequest){
+        User user = userService.join(addUserRequest);
 //        userService.signup(addUserRequest);
 
 //        return ResponseEntity.ok().body("완료");
