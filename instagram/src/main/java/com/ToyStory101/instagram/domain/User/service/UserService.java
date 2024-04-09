@@ -46,4 +46,11 @@ public class UserService {
         return user;
 
     }
+
+    public User finduser(String username){
+        User user = userRepository.findByUsername(username)
+                .orElseThrow( ()-> new CustomException(HttpStatus.BAD_REQUEST,"사용자 정보가 없습니다."));
+
+        return user;
+    }
 }

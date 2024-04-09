@@ -71,7 +71,7 @@ public class UserController {
     @PostMapping("/join")
     public ResponseEntity<?> join(@RequestBody AddUserRequest addUserRequest){
         User user = userService.join(addUserRequest);
-//        userService.signup(addUserRequest);
+//        userService.join(addUserRequest);
 
 //        return ResponseEntity.ok().body("완료");
         Result result = new Result();
@@ -83,7 +83,15 @@ public class UserController {
 
     }
 
+    @GetMapping("/findOne/{username}") //여긴 unique 걸린걸로
+    public ResponseEntity<?> findOne(@PathVariable String username){
+        User user = userService.finduser(username);
+        Result result = new Result();
+        result.setCode(CODE.SUCCESS);
+        result.setMessage("조회 성공");
+        result.setData(user);
 
-
+        return ResponseEntity.ok().body(result);
+    }
 
 }
