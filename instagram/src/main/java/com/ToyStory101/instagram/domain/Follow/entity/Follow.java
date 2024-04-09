@@ -1,7 +1,6 @@
-package com.ToyStory101.instagram.domain.comment;
+package com.ToyStory101.instagram.domain.Follow.entity;
 
-import com.ToyStory101.instagram.domain.image.Image;
-import com.ToyStory101.instagram.domain.user.User;
+import com.ToyStory101.instagram.domain.User.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,20 +15,21 @@ import java.sql.Timestamp;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+public class Follow {
 
-public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String content;
+    @ManyToOne
+    @JoinColumn(name="fromUserId")
+    private User fromUser;
 
     @ManyToOne
-    private Image image;
-
-    @ManyToOne
-    private User user;
+    @JoinColumn(name="toUserId")
+    private User toUser;
 
     @CreationTimestamp
     private Timestamp createDate;
+
 }

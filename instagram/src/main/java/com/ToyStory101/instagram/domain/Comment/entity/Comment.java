@@ -1,7 +1,7 @@
-package com.ToyStory101.instagram.domain.like;
+package com.ToyStory101.instagram.domain.Comment.entity;
 
-import com.ToyStory101.instagram.domain.image.Image;
-import com.ToyStory101.instagram.domain.user.User;
+import com.ToyStory101.instagram.domain.Image.entity.Image;
+import com.ToyStory101.instagram.domain.User.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,20 +16,20 @@ import java.sql.Timestamp;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Likes {
 
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
-    private User user;
+    private String content;
 
     @ManyToOne
     private Image image;
 
+    @ManyToOne
+    private User user;
+
     @CreationTimestamp
     private Timestamp createDate;
-
-
 }

@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: instagram
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+    url: jdbc:mysql://localhost:3306/instagram?createDatabaseIfNotExist=true&serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: 1234
+
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: create
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+
+server:
+  port: 8080
+
+#spring.jpa.generate-ddl=true
+
+#spring.jpa.hibernate.use-new-id-generator-mappings=false # ?? ??? spring Boot 3.X?? ???
+
+#spring.jpa.hibernate.ddl-auto=create

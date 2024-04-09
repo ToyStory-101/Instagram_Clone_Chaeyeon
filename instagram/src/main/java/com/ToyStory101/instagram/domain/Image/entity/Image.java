@@ -1,5 +1,5 @@
-package com.ToyStory101.instagram.domain.image;
-import com.ToyStory101.instagram.domain.user.User;
+package com.ToyStory101.instagram.domain.Image.entity;
+import com.ToyStory101.instagram.domain.User.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

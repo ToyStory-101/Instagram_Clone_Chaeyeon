@@ -1,6 +1,7 @@
-package com.ToyStory101.instagram.domain.follow;
+package com.ToyStory101.instagram.domain.Likes.entity;
 
-import com.ToyStory101.instagram.domain.user.User;
+import com.ToyStory101.instagram.domain.User.entity.User;
+import com.ToyStory101.instagram.domain.Image.entity.Image;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,21 +16,20 @@ import java.sql.Timestamp;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Follow {
+public class Likes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne
-    @JoinColumn(name="fromUserId")
-    private User fromUser;
+    private User user;
 
     @ManyToOne
-    @JoinColumn(name="toUserId")
-    private User toUser;
+    private Image image;
 
     @CreationTimestamp
     private Timestamp createDate;
+
 
 }
