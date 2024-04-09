@@ -14,10 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -71,7 +68,7 @@ public class UserController {
 
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/join")
     public ResponseEntity<?> signup(@RequestBody AddUserRequest addUserRequest){
         User user = userService.signup(addUserRequest);
 //        userService.signup(addUserRequest);
@@ -85,5 +82,8 @@ public class UserController {
         return ResponseEntity.ok().body(result);
 
     }
+
+
+
 
 }
