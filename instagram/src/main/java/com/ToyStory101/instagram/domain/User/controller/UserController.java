@@ -88,7 +88,7 @@ public class UserController {
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<?> delete(HttpServletRequest request,HttpSession session){
+    public ResponseEntity<?> delete(HttpSession session){
         if(session==null){
             throw new CustomException(HttpStatus.BAD_REQUEST,"세션이 없습니다. 삭제불가");
         }
