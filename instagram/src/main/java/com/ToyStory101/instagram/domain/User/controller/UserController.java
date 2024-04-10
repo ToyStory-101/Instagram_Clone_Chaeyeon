@@ -6,11 +6,13 @@ import com.ToyStory101.instagram.domain.User.entity.User;
 import com.ToyStory101.instagram.domain.User.service.UserService;
 import com.ToyStory101.instagram.global.dto.CODE;
 import com.ToyStory101.instagram.global.dto.Result;
+import com.ToyStory101.instagram.global.exception.CustomException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -42,7 +44,9 @@ public class UserController {
         result.setData(user);
 
         HttpSession session = request.getSession(true);
-        session.setAttribute(user.getName(), user.getPassword());
+        session.setAttribute("email", user.getEmail());
+        // key value의 값으로 안 주니까 session에서 getAttribute로 가져올 때 email 가져오는 방법이 모호..?
+
         return ResponseEntity.ok().body(result);
 
     }
@@ -83,6 +87,26 @@ public class UserController {
 
     }
 
+    @PostMapping("/delete")
+    public ResponseEntity<?> delete(HttpServletRequest request,HttpSession session){
+        if(session==null){
+            throw new CustomException(HttpStatus.BAD_REQUEST,"세션이 없습니다. 삭제불가");
+        }
+
+        String email = session.getAttribute("email").toString();
+        userService.delete(email);
+        session.invalidate();
+
+        Result result = new Result();
+        result.setCode(CODE.SUCCESS);
+        result.setMessage("삭제 성공");
+        result.setData(null);
+
+        return ResponseEntity.ok().body(result);
+
+    }
+
+    // TODO: 2024-04-10 email로 변경 필요
     @GetMapping("/findOne/{username}") //여긴 unique 걸린걸로
     public ResponseEntity<?> findOne(@PathVariable String username){
         User user = userService.finduser(username);

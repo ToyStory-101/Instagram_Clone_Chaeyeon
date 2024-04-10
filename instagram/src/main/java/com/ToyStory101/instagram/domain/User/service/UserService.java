@@ -5,6 +5,7 @@ import com.ToyStory101.instagram.domain.User.dto.UserLoginRequest;
 import com.ToyStory101.instagram.domain.User.entity.User;
 import com.ToyStory101.instagram.global.exception.CustomException;
 import com.ToyStory101.instagram.domain.User.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -50,7 +51,12 @@ public class UserService {
     public User finduser(String username){
         User user = userRepository.findByUsername(username)
                 .orElseThrow( ()-> new CustomException(HttpStatus.BAD_REQUEST,"사용자 정보가 없습니다."));
-
         return user;
     }
+
+    @Transactional // 삭제시 Transaction 필수
+    public void delete(String email){
+        userRepository.deleteUserByEmail(email);
+    }
+
 }
