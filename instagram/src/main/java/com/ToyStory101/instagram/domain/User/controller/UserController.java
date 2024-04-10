@@ -59,10 +59,6 @@ public class UserController {
             session.invalidate();
         }
 
-//        Cookie myCookie = new Cookie("JSESSIONID",null);  // 쿠키 값을 null로 설정
-//        myCookie.setMaxAge(0);
-//        response.addCookie(myCookie);
-
         Result result = new Result();
         result.setCode(CODE.SUCCESS);
         result.setMessage("로그아웃 완료");
@@ -88,7 +84,10 @@ public class UserController {
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<?> delete(HttpSession session){
+    public ResponseEntity<?> delete(HttpServletRequest request){
+
+        HttpSession session = request.getSession(false); //탈퇴시에도 세션 false 해줘야 함.
+
         if(session==null){
             throw new CustomException(HttpStatus.BAD_REQUEST,"세션이 없습니다. 삭제불가");
         }
@@ -106,6 +105,7 @@ public class UserController {
 
     }
 
+
     // TODO: 2024-04-10 email로 변경 필요
     @GetMapping("/findOne/{username}") //여긴 unique 걸린걸로
     public ResponseEntity<?> findOne(@PathVariable String username){
@@ -116,6 +116,26 @@ public class UserController {
         result.setData(user);
 
         return ResponseEntity.ok().body(result);
+    }
+
+
+    @PostMapping("/update")
+    public ResponseEntity<?> update(@RequestBody AddUserRequest addUserRequest, HttpSession session){
+
+        if(session==null){
+            throw new CustomException(HttpStatus.BAD_REQUEST,"세션이 없습니다.");
+        }
+        User user = userService.update(addUserRequest, session.getAttribute("email").toString());
+
+        Result result = new Result();
+        result.setCode(CODE.SUCCESS);
+        result.setMessage("회원 수정 성공");
+        result.setData(user);
+
+        session.setAttribute("email",user.getEmail());
+
+        return ResponseEntity.ok().body(result);
+
     }
 
 }

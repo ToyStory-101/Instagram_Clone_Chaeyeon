@@ -28,6 +28,35 @@ public class UserService {
         return user;
 
     }
+
+    @Transactional //update시에도 필요
+    public User update(AddUserRequest aur, String email){
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(()->new CustomException(HttpStatus.BAD_REQUEST,"사용자가 일치하지 않습니다."));
+
+        //더티체킹 repository에 update가 없음
+        if(aur.getName()!=null){
+            user.setName(aur.getName());
+        }
+        if(aur.getUsername()!=null){
+            user.setUsername(aur.getUsername());
+        }
+        if(aur.getPassword()!=null){
+            user.setPassword(aur.getPassword());
+        }
+        if(aur.getPhone()!=null){
+            user.setPhone(aur.getPhone());
+        }
+        if(aur.getProfileImage()!=null){
+            user.setProfileImage(aur.getProfileImage());
+        }
+        if(aur.getEmail()!=null){
+            user.setEmail(aur.getEmail());
+        }
+
+        return user;
+    }
+
     public User join(AddUserRequest aur) throws CustomException{
         if(aur.getEmail() == null | aur.getPassword() == null | aur.getName() == null | aur.getUsername() == null){
             throw new CustomException(HttpStatus.BAD_REQUEST, "정보를 다 입력하세요!");
